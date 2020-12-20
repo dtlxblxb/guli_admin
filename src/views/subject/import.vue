@@ -12,7 +12,8 @@
       <el-form-item label="选择Excel">
         <!-- action:上传的地址, limit:最大允许上传个数, on-exceed:超出limit文件个数限制时的钩子 -->
         <!-- auto-upload:是否在选取文件后立即进行上传(一个按钮:true-自动上传,两个按钮:false-手动上传),  ref:相当于这个upload组件的id(用于得到这个组件对象) -->
-        <!-- name="file",表示提交文件内容的key为file,所以要求后端接收文件内容的参数为file -->
+        <!-- name="file",表示提交文件内容的key为file,值为二进制的文件内容,所以要求后端接收文件内容的参数为file -->
+        <!-- accept, 只能上传excel文件, 其它文件看不到 -->
         <el-upload
           ref="upload"
           :auto-upload="false"
@@ -20,18 +21,12 @@
           :on-success="fileUploadSuccess"
           :on-error="fileUploadError"
           :limit="1"
-          action="http://127.0.0.1:8110/admin/edu/subject/import"
+          action="http://127.0.0.1:9110/admin/edu/subject/import"
           name="file"
           accept="application/vnd.ms-excel"
         >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button> <!-- slot="trigger" 表示这个按钮触发文件选择对话框-->
-          <el-button
-            :disabled="importBtnDisabled"
-            style="margin-left: 10px;"
-            size="small"
-            type="success"
-            @click="submitUpload()"
-          >导入</el-button>
+          <el-button :disabled="importBtnDisabled" style="margin-left: 10px;" size="small" type="success" @click="submitUpload()">导入</el-button> <!-- 手动提交上传 -->
         </el-upload>
       </el-form-item>
     </el-form>
@@ -53,10 +48,10 @@ export default {
       this.$message.warning('只能选取一个文件')
     },
 
-    // 上传
+    // 执行上传
     submitUpload() {
       this.importBtnDisabled = true
-      this.$refs.upload.submit() // 手动提交上传请求表单,提交到action属性的位置
+      this.$refs.upload.submit() // 手动提交上传请求文件, 提交到action属性的位置, submit()是组件的方法, upload是这个组件的id
     },
 
     fileUploadSuccess(response) {
