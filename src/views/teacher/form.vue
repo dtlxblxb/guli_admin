@@ -35,7 +35,7 @@
           :before-upload="beforeAvatarUpload"
           :action="BASE_API + '/admin/oss/file/upload?module=avatar'"
           class="avatar-uploader">
-          <img v-if="teacher.avatar" :src="teacher.avatar" class="avatar"> <!-- :src,页面上显示图片 -->
+          <img v-if="teacher.avatar" :src="teacher.avatar" class="avatar"> <!-- :src会在页面上显示图片, img标签的:src属性会显示图片, a标签的:href属性(鼠标点击)会下载文件 -->
           <i v-else class="el-icon-plus avatar-uploader-icon"/> <!-- el-icon-plus显示个小加号 -->
         </el-upload>
       </el-form-item>

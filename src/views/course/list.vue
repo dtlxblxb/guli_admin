@@ -64,23 +64,29 @@
           {{ scope.row.teacherName }}
         </template>
       </el-table-column>
+      <!-- 价格: 显示两位小数-->
       <el-table-column label="价格(元)" width="100" align="center" >
         <template slot-scope="scope">
-          <!-- 转换成数值型数据时,如果是'0.00',就会转为数值0,如果是'99.00',就会转为数值99,如果是'10.01',就会转为数值10.01 -->
-          <el-tag v-if="Number(scope.row.price) === 0" type="success">免费</el-tag>
-          <!-- price在数据库定义的是四位小数总共十位的decimal类型,mapper的xml文件中设定CONVERT(c.price, DECIMAL(8,2)) AS price,表示2位小数总共8位的字符串类型(四舍五入剪断),xml最终决定结果--), 这是后端处理的方法 -->
-          <el-tag v-else>{{ scope.row.price }}</el-tag>
-          <!-- 在数值类型的基础上使用toFixed(2)来保留两位小数,但toFixed的执行结果变成了string类型,这是前端处理的方法 -->
+          <!-- 转换成数值型数值(后端返回的是字符串不好直接比较)时,如果是'0.00',就会转为数值0,如果是'99.00',就会转为数值99,如果是'10.01',就会转为数值10.01 -->
+          <el-tag v-if="Number(scope.row.price) === 0" type="success">免费</el-tag> <!-- type:绿色 -->
+          <!-- price在数据库定义的是4位小数总共10位的decimal类型, price(10,4)-->
+          <!-- mapper的xml文件中设定CONVERT(c.price, DECIMAL(8,2)) AS price -->
+          <!-- 表示返回2位小数总共8位(保证整数位始终是5位)的字符串类型(四舍五入剪断),xml最终决定结果, 这是后端处理的方法 -->
+          <el-tag v-else>{{ scope.row.price }}</el-tag> <!-- 默认type:蓝色 -->
+
+          <!-- 在数值类型的基础上使用toFixed(2)来保留2位小数,但toFixed的执行结果又变成了string类型,这是前端处理的方法 -->
           <!-- <el-tag v-else>{{ Number(scope.row.price).toFixed(2) }}</el-tag> -->
         </template>
       </el-table-column>
-      <!-- prop	对应列内容的字段名，也可以使用 property 属性 -->
+      <!-- 状态 -->
+      <!-- prop	这一列对应的取出的列表(list)的字段名(status)，也可以使用 property 属性 -->
       <el-table-column prop="status" label="课程状态" width="100" align="center" >
         <template slot-scope="scope">
-          <!-- type前加冒号表示是变化的属性 -->
+          <!-- type前加冒号表示是变化的属性, warning:橙色, success:绿色 -->
           <el-tag :type="scope.row.status === 'Draft' ? 'warning' : 'success'">{{ scope.row.status === 'Draft' ? '未发布' : '已发布' }}</el-tag>
         </template>
       </el-table-column>
+      <!-- 创建时间: 只显示日期-->
       <el-table-column label="创建时间" width="120" align="center">
         <template slot-scope="scope">
           <!-- 2020-11-20正好十个字符 -->
@@ -88,8 +94,11 @@
         </template>
       </el-table-column>
 
+      <!-- 操作 -->
       <el-table-column label="操作" width="300" align="center">
         <template slot-scope="scope">
+          <!-- 路由配置: /course/info/:id ==> @/views/course/form, 所以会跳到/view/course/form.vue 组件页 -->
+          <!-- 在url栏显示: http://localhost:9528/#/course/info/1341171307173171201 -->
           <router-link :to="'/course/info/'+scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
           </router-link>
@@ -128,7 +137,7 @@ export default {
       page: 1, // 页码
       limit: 5, // 每页记录数
       searchObj: { // 查询条件
-        subjectId: '' // 解决查询表单无法选中二级类别
+        subjectId: '' // 解决顶部的查询表单中无法选中二级类别, 也许是bug
       },
       teacherList: [], // 讲师列表
       subjectList: [], // 一级分类列表
@@ -168,7 +177,7 @@ export default {
         }
       }
     },
-    // 每页记录数改变，size：回调参数，表示当前选中的“每页条数”
+    // 改变每页记录数，size：回调参数，表示当前选中的“每页记录数”
     changePageSize(size) {
       this.limit = size
       this.fetchData()
@@ -195,7 +204,7 @@ export default {
       }).then(response => {
         this.fetchData()
         this.$message.success(response.message)
-      }).catch((response) => { // 失败(非20000)--响应拦截器处理
+      }).catch((response) => { // 失败(非20000或http错误)--响应拦截器处理
         if (response === 'cancel') {
           this.$message.info('取消删除')
         }

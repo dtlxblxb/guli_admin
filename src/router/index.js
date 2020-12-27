@@ -113,14 +113,14 @@ export const constantRouterMap = [
         meta: { title: '发布课程' }
       },
       {
-        path: 'info/:id',
+        path: 'info/:id', // 课程id(设置这两个路由的目的:1.active === 0,2.通过url取课程id)
         name: 'CourseInfoEdit',
         component: () => import('@/views/course/form'),
         meta: { title: '编辑课程' },
         hidden: true
       },
       {
-        path: 'chapter/:id',
+        path: 'chapter/:id', // 课程id(设置这两个路由的目的:1.active === 1,2.通过url取课程id)
         name: 'CourseChapterEdit',
         component: () => import('@/views/course/form'),
         meta: { title: '编辑大纲' },

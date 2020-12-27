@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       publishBtnDisabled: false, // 按钮是否禁用
-      coursePublish: {}
+      coursePublish: {} // 课程发布信息
     }
   },
   created() {
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    // 获取发布信息
+    // 获取课程发布信息
     fetchCoursePublishById(id) {
       courseApi.getCoursePublishById(id).then(response => {
         this.coursePublish = response.data.item
@@ -85,14 +85,6 @@ export default {
     line-height: 1;
     font-weight: normal;
 }
-.ccInfo .main p {
-    margin-bottom: 10px;
-    word-wrap: break-word;
-    line-height: 24px;
-    max-height: 48px;
-    overflow: hidden;
-}
-
 .ccInfo .main p {
     margin-bottom: 10px;
     word-wrap: break-word;

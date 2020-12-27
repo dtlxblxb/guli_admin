@@ -11,7 +11,7 @@
         <p>
           {{ chapter.title }}
           <span class="acts">
-            <el-button type="text" @click="addVideo(chapter.id)">添加课时</el-button>
+            <el-button type="text" @click="addVideo(chapter.id)">添加课时</el-button> <!-- type="text": 文字按钮 -->
             <el-button type="text" @click="editChapter(chapter.id)">编辑</el-button>
             <el-button type="text" @click="removeChapterById(chapter.id)">删除</el-button>
           </span>
@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import chapterApi from '@/api/chapter'
+import chapterApi from '@/api/chapter' // 引入Api(js)
 import videoApi from '@/api/video'
 // 1.引入组件
-import ChapterForm from '@/views/course/components/Chapter/Form'
+import ChapterForm from '@/views/course/components/Chapter/Form' // 引入组件(vue)
 import VideoForm from '@/views/course/components/Video/Form'
 
 export default {
@@ -66,7 +66,7 @@ export default {
   methods: {
     // 获取章节数据
     fetchNodeList() {
-      chapterApi.getNestedTreeList(this.$parent.courseId).then(response => {
+      chapterApi.getNestedTreeList(this.$parent.courseId).then(response => { // this.$parent.courseId有两种方法得到:1.save,2.路由
         this.chapterList = response.data.items
       })
     },
@@ -87,19 +87,19 @@ export default {
         }
       })
     },
-    // 添加章节
+    // 添加章节(显示章节对话框组件)
     addChapter() {
-      this.$refs.chapterForm.open()
+      this.$refs.chapterForm.open() // 父组件调用子组件中的方法
     },
-    // 编辑章节
+    // 编辑章节(显示章节对话框组件)
     editChapter(chapterId) {
       this.$refs.chapterForm.open(chapterId) // javascript没有重载,所以open()和open(chapterId)调用的是一个方法
     },
-    // 添加课时
+    // 添加课时(显示课时对话框组件)
     addVideo(chapterId) {
       this.$refs.videoForm.open(chapterId)
     },
-    // 编辑课时
+    // 编辑课时(显示课时对话框组件)
     editVideo(chapterId, videoId) {
       this.$refs.videoForm.open(chapterId, videoId)
     },

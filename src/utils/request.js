@@ -5,7 +5,7 @@ import { getToken } from '@/utils/auth'
 
 // 创建axios实例--一个函数
 const service = axios.create({ // 初始化axios设置，返回一个函数引用
-  baseURL: process.env.BASE_API, // api 的 base_url(http://127.0.0.1:8110), process.env.BASE_API在build/webpack.dev.conf.js中定义
+  baseURL: process.env.BASE_API, // api 的 base_url(http://127.0.0.1:8110), process.env.BASE_API在/configdev.env.js和/build/webpack.dev.conf.js中定义
   timeout: 12000 // 请求超时时间(后端定的是10秒)
 })
 
