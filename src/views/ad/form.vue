@@ -7,14 +7,8 @@
       </el-form-item>
       <!-- 推荐位 -->
       <el-form-item label="推荐位">
-        <el-select
-          v-model="ad.typeId"
-          placeholder="请选择">
-          <el-option
-            v-for="adType in adTypeList"
-            :key="adType.id"
-            :label="adType.title"
-            :value="adType.id"/>
+        <el-select v-model="ad.typeId" placeholder="请选择">
+          <el-option v-for="adType in adTypeList" :key="adType.id" :label="adType.title" :value="adType.id"/>
         </el-select>
       </el-form-item>
       <el-form-item label="排序">
@@ -36,7 +30,7 @@
       <el-form-item label="背景颜色">
         <el-color-picker v-model="ad.color"/>
       </el-form-item>
-      <el-form-item label="链接地址">
+      <el-form-item label="链接地址"> <!-- 要求必须带http:,否则出错 -->
         <el-input v-model="ad.linkUrl" />
       </el-form-item>
       <el-form-item>
@@ -93,7 +87,6 @@ export default {
 
     // 新增
     saveData() {
-      // debugger
       adApi.save(this.ad).then(response => {
         this.$message.success(response.message)
         this.$router.push({ path: '/ad/list' })
@@ -102,7 +95,6 @@ export default {
 
     // 根据id更新记录
     updateData() {
-      // teacher数据的获取
       adApi.updateById(this.ad).then(response => {
         this.$message.success(response.message)
         this.$router.push({ path: '/ad/list' })
@@ -140,7 +132,7 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log(res)
       if (res.success) {
-        // console.log(res)
+        // console.log(res), 文件上传远程调用返回上传文件的保存地址
         this.ad.imageUrl = res.data.url
         // 强制重新渲染
         // this.$forceUpdate()

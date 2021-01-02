@@ -26,7 +26,7 @@ export default {
 
   // 页面渲染成功
   created() {
-    if (this.$route.params.id) {
+    if (this.$route.params.id) { // 回显
       this.fetchDataById(this.$route.params.id)
     }
   },
@@ -45,19 +45,17 @@ export default {
 
     // 新增
     saveData() {
-      // debugger
       adTypeApi.save(this.adType).then(response => {
         this.$message.success(response.message)
-        this.$router.push({ path: '/ad/type-list' })
+        this.$router.push({ path: '/ad/type-list' }) // 回到推荐位列表页
       })
     },
 
     // 根据id更新记录
     updateData() {
-      // teacher数据的获取
       adTypeApi.updateById(this.adType).then(response => {
         this.$message.success(response.message)
-        this.$router.push({ path: '/ad/type-list' })
+        this.$router.push({ path: '/ad/type-list' }) // 回到推荐位列表页
       })
     },
 

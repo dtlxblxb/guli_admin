@@ -10,9 +10,7 @@
 
     <!-- 表格 -->
     <el-table :data="list" border stripe>
-      <el-table-column
-        label="#"
-        width="50">
+      <el-table-column label="#" width="50">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
